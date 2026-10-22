@@ -88,7 +88,7 @@ async function loadAnemiaModel() {
   try {
     // The service worker uses network-first for this JSON, so a newly trained model
     // can replace the placeholder while online and then be cached for offline use.
-    const response = await fetch("./models/anemia_model.json", {cache:"no-store"});
+    const response = await fetch("./anemia_model.json", {cache:"no-store"});
     if (!response.ok) throw new Error("Model file not found");
     const model = await response.json();
     if (!model.ready || !Array.isArray(model.coefficients) || model.coefficients.length !== 4) {
