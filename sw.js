@@ -1,5 +1,5 @@
 const CACHE_NAME = "phc-assist-offline-v3";
-const MODEL_PATH = "./models/anemia_model.json";
+const MODEL_PATH = "./anemia_model.json";
 const APP_FILES = [
   "./",
   "./index.html",
