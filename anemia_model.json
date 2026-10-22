@@ -1,0 +1,76 @@
+{
+  "ready": true,
+  "model_type": "standardized_logistic_regression",
+  "model_version": "research-baseline-1",
+  "features": [
+    "RBC",
+    "MCV",
+    "MCH",
+    "MCHC"
+  ],
+  "impute_medians": [
+    4.35,
+    83.2,
+    27.5,
+    32.8
+  ],
+  "means": [
+    4.341257783312577,
+    82.0983810709838,
+    27.022789539227894,
+    32.826525529265254
+  ],
+  "scales": [
+    0.9234373422596249,
+    8.677483200165588,
+    3.9221745549683926,
+    2.6494260301429096
+  ],
+  "coefficients": [
+    -6.233828932927993,
+    -2.0890056871939313,
+    -1.112477749740276,
+    -0.06852335445375232
+  ],
+  "intercept": -0.905463936858233,
+  "decision_boundary": 0.5,
+  "threshold_note": "0.5 is a default binary-model boundary for this research demonstration, not a clinical referral threshold.",
+  "dataset": {
+    "filename": "Raw Hematological Dataset for Anemia Analysis and Classification.xlsx",
+    "target_column": "Decision_Class",
+    "source": "Raw Hematological Dataset for Anemia Analysis and Classification, Mendeley Data, DOI 10.17632/tnswkb4bt8.1, CC BY 4.0",
+    "rows_used": 1004,
+    "training_rows": 803,
+    "held_out_test_rows": 201,
+    "features_used": [
+      "RBC",
+      "MCV",
+      "MCH",
+      "MCHC"
+    ],
+    "features_excluded_to_reduce_target_leakage": [
+      "HGB/hemoglobin",
+      "PCV/HCT/hematocrit",
+      "age",
+      "gender"
+    ],
+    "split": "stratified 80/20 hold-out, random_state=42"
+  },
+  "held_out_test_metrics": {
+    "test_n": 201,
+    "accuracy": 0.9601990049751243,
+    "balanced_accuracy": 0.9622851365015166,
+    "sensitivity_recall": 0.9767441860465116,
+    "specificity": 0.9478260869565217,
+    "precision": 0.9333333333333333,
+    "roc_auc": 0.992922143579373,
+    "confusion_matrix": {
+      "true_negative": 109,
+      "false_positive": 6,
+      "false_negative": 2,
+      "true_positive": 84
+    }
+  },
+  "clinical_status": "UNVALIDATED RESEARCH PROTOTYPE \u2014 NOT FOR PATIENT CARE",
+  "disclaimer": "This model is trained on a small, single-site dataset and may not generalize. Its score is not a calibrated clinical probability. It does not diagnose or rule out anaemia and must not determine treatment or referral. Use laboratory haemoglobin measurement and clinician assessment."
+}

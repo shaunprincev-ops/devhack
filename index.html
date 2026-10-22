@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="description" content="PHC Assist offline screening interface prototype. Demonstration only, not a diagnostic device.">
+  <title>PHC Assist — Offline Screening Prototype</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">+</div>
+        <div><strong>PHC Assist</strong><small>Community health support</small></div>
+      </div>
+      <div class="nav-label">WORKSPACE</div>
+      <nav aria-label="Main navigation">
+        <button class="nav-item active" data-page="dashboard"><span>◫</span> Dashboard</button>
+        <button class="nav-item" data-page="screening"><span>⌕</span> New screening</button>
+        <button class="nav-item" data-page="records"><span>▤</span> Demo records <span id="recordCount" class="nav-count">0</span></button>
+        <button class="nav-item" data-page="safety"><span>ⓘ</span> About & safety</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="offline-card">
+          <span class="status-dot" id="sideDot"></span>
+          <div><strong id="sideNetwork">Checking connection…</strong><small id="sideNetworkSub">Offline-ready prototype</small></div>
+        </div>
+        <small class="sidebar-foot">Prototype v0.2 · Local demo records</small>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="mobile-brand"><span class="brand-mark">+</span><strong>PHC Assist</strong></div>
+        <div class="breadcrumb">Workspace <span>/</span> <strong id="crumb">Dashboard</strong></div>
+        <div class="top-actions">
+          <span class="connection-pill" id="networkPill"><span class="status-dot"></span><span id="networkText">Checking…</span></span>
+          <button class="avatar" title="Local prototype">PH</button>
+        </div>
+      </header>
+
+      <section id="page-dashboard" class="page active">
+        <div class="page-heading">
+          <div><p class="eyebrow">PRIMARY HEALTH CENTRE TOOLKIT</p><h1>Good day, health worker.</h1><p class="subheading">A simple screening workflow designed for low-connectivity settings.</p></div>
+          <button class="btn btn-primary" data-go="screening">＋ Start screening</button>
+        </div>
+        <div class="notice notice-demo"><span class="notice-icon">ⓘ</span><div><strong>Research prototype</strong><p>The anaemia pathway can run a locally trained experimental CBC model once you complete the training steps. Its outputs are unvalidated research results, not diagnoses or clinical referral decisions. Skin and vitals pathways remain interface demos.</p></div></div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-top"><span>Demo screenings</span><span class="stat-icon">▤</span></div><div class="stat-number" id="statTotal">0</div><div class="stat-foot">Saved on this device</div></article>
+          <article class="stat-card"><div class="stat-top"><span>Model flags / demo labels</span><span class="stat-icon teal">↗</span></div><div class="stat-number" id="statReferral">0</div><div class="stat-foot">Not clinical referrals</div></article>
+          <article class="stat-card"><div class="stat-top"><span>Connection</span><span class="stat-icon">⌁</span></div><div class="stat-number compact" id="statConnection">Checking</div><div class="stat-foot" id="statConnectionFoot">Offline support enabled</div></article>
+        </div>
+        <div class="section-title"><div><h2>Screening pathways</h2><p>Select a pathway to open the demo form.</p></div><span class="tag">Prototype</span></div>
+        <div class="pathway-grid">
+          <button class="pathway-card" data-path="skin"><div class="path-icon purple">◉</div><div class="pathway-content"><h3>Skin image pathway</h3><p>Image upload interface for a future validated model.</p><span class="card-link">Open pathway <span>→</span></span></div></button>
+          <button class="pathway-card" data-path="anaemia"><div class="path-icon orange">◌</div><div class="pathway-content"><h3>Anaemia model (CBC)</h3><p>Experimental ML baseline using red-cell indices. Requires a trained local model.</p><span class="card-link">Open pathway <span>→</span></span></div></button>
+          <button class="pathway-card" data-path="vitals"><div class="path-icon teal">⌁</div><div class="pathway-content"><h3>Vitals-based demo</h3><p>Enter sample vital signs to test the interface only.</p><span class="card-link">Open pathway <span>→</span></span></div></button>
+        </div>
+        <div class="section-title recent-heading"><div><h2>Recent demo records</h2><p>Stored locally in this browser.</p></div><button class="btn btn-secondary btn-small" data-go="records">View all records →</button></div>
+        <div class="table-wrap"><table><thead><tr><th>Case reference</th><th>Pathway</th><th>Date & time</th><th>Demo outcome</th></tr></thead><tbody id="recentRows"><tr><td colspan="4" class="empty-cell">No demo records yet. Start a screening to create one.</td></tr></tbody></table></div>
+      </section>
+
+      <section id="page-screening" class="page">
+        <div class="page-heading"><div><p class="eyebrow">SCREENING WORKFLOW</p><h1>New screening</h1><p class="subheading">Use fictional values for the research-only anaemia model.</p></div><span class="tag">Research prototype</span></div>
+        <div class="notice notice-warning"><span class="notice-icon">⚠</span><div><strong>Not for clinical use</strong><p>The CBC model is an unvalidated research baseline trained on a limited dataset. Its score is not a calibrated probability, and the model boundary is not a clinical referral threshold. Do not enter real patient data.</p></div></div>
+        <div class="screening-layout">
+          <div class="form-card">
+            <div class="card-heading"><div><h2>Case information</h2><p>Use a fictional reference; avoid personal identifiers.</p></div><span class="step-badge">01</span></div>
+            <form id="screeningForm">
+              <label for="caseRef">Case reference <span class="optional">Required</span></label>
+              <input id="caseRef" name="caseRef" placeholder="e.g. DEMO-001" maxlength="40" required>
+              <label for="age">Age (years) <span class="optional">Optional</span></label>
+              <input id="age" name="age" type="number" min="0" max="120" placeholder="e.g. 35">
+              <label for="pathway">Screening pathway</label>
+              <select id="pathway" name="pathway">
+                <option value="anaemia">Anaemia model (CBC)</option>
+                <option value="skin">Skin image demo (not AI)</option>
+                <option value="vitals">Vitals-based demo (not AI)</option>
+              </select>
+              <div id="anaemiaFields" class="input-group">
+                <p class="field-hint">Enter four CBC red-cell indices from an existing laboratory report. Do not enter haemoglobin or hematocrit: these are excluded from the experimental model to reduce direct label leakage. Units must match the dataset/lab report.</p>
+                <div class="field-row"><div><label for="cbcRbc">RBC (×10⁶/µL)</label><input id="cbcRbc" type="number" step="any" min="0.1" max="20" placeholder="e.g. 4.5" required></div><div><label for="cbcMcv">MCV (fL)</label><input id="cbcMcv" type="number" step="any" min="1" max="200" placeholder="e.g. 82" required></div></div>
+                <div class="field-row"><div><label for="cbcMch">MCH (pg)</label><input id="cbcMch" type="number" step="any" min="1" max="100" placeholder="e.g. 27" required></div><div><label for="cbcMchc">MCHC (g/dL)</label><input id="cbcMchc" type="number" step="any" min="1" max="100" placeholder="e.g. 33" required></div></div>
+                <p class="field-hint" id="modelStatus" aria-live="polite">Checking whether a trained local model is installed…</p>
+              </div>
+              <div id="imageFields" class="input-group hidden">
+                <label for="sampleImage">Sample image <span class="optional">Demo upload only</span></label>
+                <label class="file-drop" for="sampleImage"><span class="upload-icon">↑</span><strong>Choose a local image</strong><small>Image stays in your browser and is not analysed.</small><span id="fileName" class="file-name">No file selected</span></label>
+                <input id="sampleImage" type="file" accept="image/*" class="visually-hidden">
+              </div>
+              <div id="vitalsFields" class="input-group hidden">
+                <div class="field-row"><div><label for="systolic">Systolic BP</label><input id="systolic" type="number" min="40" max="300" placeholder="e.g. 120"></div><div><label for="pulse">Pulse / min</label><input id="pulse" type="number" min="20" max="250" placeholder="e.g. 78"></div></div>
+                <label for="spo2">SpO₂ (%)</label><input id="spo2" type="number" min="50" max="100" placeholder="e.g. 98">
+                <p class="field-hint">These fields are for interface testing only. No clinical rule is applied.</p>
+              </div>
+              <div class="form-actions"><button type="reset" class="btn btn-secondary">Clear form</button><button id="submitScreening" type="submit" class="btn btn-primary">Run screening model <span>→</span></button></div>
+            </form>
+          </div>
+          <aside class="side-info">
+            <div class="info-card"><div class="info-icon">⌁</div><h3>Offline-first design</h3><p>The app shell is cached after first load. Screening interface and locally saved demo records can be used without an internet connection.</p><div class="mini-status"><span class="status-dot"></span><span id="offlineInfo">Checking local app status…</span></div></div>
+            <div class="info-card"><div class="info-icon purple-text">♢</div><h3>Model readiness</h3><p id="modelReadiness">The app will load models/anemia_model.json. Train it using train_model.py before using the experimental inference path.</p><ul><li>Offline inference after the model file is cached</li><li>Held-out metrics saved with the model</li><li>No clinical referral threshold is approved</li></ul></div>
+          </aside>
+        </div>
+        <div id="resultPanel" class="result-panel hidden" aria-live="polite"></div>
+      </section>
+
+      <section id="page-records" class="page">
+        <div class="page-heading"><div><p class="eyebrow">LOCAL STORAGE</p><h1>Demo records</h1><p class="subheading">These records are saved in this browser on this device only.</p></div><button class="btn btn-secondary" id="exportBtn">↓ Export JSON</button></div>
+        <div class="notice notice-demo"><span class="notice-icon">ⓘ</span><div><strong>Privacy note</strong><p>Only use fictional demo data. Local browser storage is not an approved clinical record system.</p></div></div>
+        <div class="table-wrap records-table"><table><thead><tr><th>Case reference</th><th>Pathway</th><th>Age</th><th>Created</th><th>Demo outcome</th><th></th></tr></thead><tbody id="allRows"><tr><td colspan="6" class="empty-cell">No demo records yet.</td></tr></tbody></table></div>
+        <div class="records-actions"><button class="btn btn-danger btn-small" id="clearRecords">Clear all local demo records</button></div>
+      </section>
+
+      <section id="page-safety" class="page">
+        <div class="page-heading"><div><p class="eyebrow">PROJECT INFORMATION</p><h1>About & safety</h1><p class="subheading">What this prototype does — and does not do.</p></div></div>
+        <div class="safety-grid">
+          <article class="safety-card"><div class="safety-icon teal">✓</div><h2>What works in this prototype</h2><ul><li>Offline-capable website shell after initial setup</li><li>Local CBC model inference after training and caching</li><li>Held-out evaluation metrics written by the training script</li><li>Local research-demo records and JSON export</li><li>Network status indicator</li></ul></article>
+          <article class="safety-card"><div class="safety-icon orange">!</div><h2>Limitations</h2><ul><li>Small, single-site dataset; unknown generalisation to other populations</li><li>Model does not use haemoglobin or hematocrit as input</li><li>Model score is not a calibrated clinical probability</li><li>0.5 model boundary is not a clinical referral threshold</li><li>Local browser storage is not secure clinical record management</li></ul></article>
+          <article class="safety-card wide"><div class="safety-icon purple">⚕</div><h2>Required disclaimer</h2><p><strong>PHC Assist is an experimental decision-support concept, not a diagnostic device.</strong> The CBC model is an educational research baseline and is not clinically validated. It must not be used to diagnose or rule out anaemia, determine treatment, or make patient referral decisions. A lower model score does not mean a person is free of anaemia. Use appropriate laboratory haemoglobin testing and qualified clinician assessment. Any future clinical use requires independent external validation, subgroup evaluation, clinical review, privacy safeguards, and applicable regulatory review.</p></article>
+        </div>
+        <div class="build-note"><strong>Offline model inference</strong><p>The trained model is a small JSON file evaluated directly in the browser, so no remote inference service is required. The app must load once with the model installed before it can use that model offline. Skin and vitals pathways remain demos.</p></div>
+      </section>
+      <footer class="footer"><span>PHC Assist · Hackathon prototype</span><span>Decision-support concept only · Not a diagnostic device</span></footer>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="./app.js"></script>
+</body>
+</html>
