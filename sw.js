@@ -1,4 +1,4 @@
-const CACHE_NAME = "phc-assist-offline-v3";
+const CACHE_NAME = "phc-assist-offline-v4";
 const MODEL_PATH = "./anemia_model.json";
 const APP_FILES = [
   "./",
@@ -33,7 +33,7 @@ self.addEventListener("fetch", event => {
 
   // The model uses network-first so that a newly trained JSON model replaces the
   // placeholder in cache when online. If offline, the last cached model is used.
-  if (url.pathname.endsWith("/models/anemia_model.json")) {
+  if (url.pathname.endsWith("/anemia_model.json")) {
     event.respondWith(
       fetch(event.request).then(response => {
         if (response && response.ok) {
